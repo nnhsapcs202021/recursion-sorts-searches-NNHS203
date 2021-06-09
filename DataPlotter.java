@@ -76,12 +76,51 @@ public class DataPlotter
 
     // for a given x, y value, plot the downhill path from there
     private static void plotDownhillPath(int x, int y)
-    { panel.setPixe
+    { 
+        int Xmin = Math.max(x-1,0);
+        int Ymin = Math.max(y-1,0);
+        int Xmax = Math.min(x+1,cols);
+        int Ymax = Math.min(y+1,rows);
+        int lowestX = x;
+        int lowestY = y;
+        for (int i = Ymin; i<Ymax; i++)
+        { for (int b = Xmin; b<Xmax; b++)
+            {
+                if(grid[i][b]< grid[lowestY][lowestX])
+                {
+                lowestX = b;
+                lowestY = i;
+
+                }
+                
+                
+            }
+            
+        }
+                        
+        
+        if(grid[lowestY][lowestX] != grid[y][x])
+        {
+            panel.setPixel(lowestX,lowestY, Color.blue);
+            plotDownhillPath(lowestX, lowestY); 
+        }
+        else
+        {
+            panel.setPixel(lowestX,lowestY, Color.blue);
+        }
+ 
+        
     }
 
     private static void plotAllPaths()
     {
-        plotDownhillPath(0, 0);
+        for(int r = 0; r < grid.length; r++)
+        {
+            for(int c = 0; c < grid[0].length; c++)
+            {
+                plotDownhillPath(c,r);
+            }
+        }
     }
 
 }
